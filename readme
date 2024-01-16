@@ -1,0 +1,25 @@
+*************INSTRUCCCIÓNES DE EJECUCIÓN*************
+
+Requerimientos:
+    -> Contar con Docker instalado.  (docker desktop en caso de Windows)
+    
+NOTA: Algunas contraseñas / accesos se encuentran "quemados" en codigo, esto para facilitar la ejecución de esta prueba en cuestion.
+En ambientes DEV / UAT / PRD. Lo ideal es utilizar secretos y/o almacenes de credenciales.
+
+-> Contruir redes
+
+1) docker network create test-red
+
+-> Construir contendor DB
+1) docker run --name some-postgres --network test-red  -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydatabase -p 5432:5432 -d postgres
+
+
+-> Construir contenedor BackEnd
+1) cd micro_servicio
+2) docker build -t micro-servicio-flask .
+3) docker run --network  test-red -p 5000:5000 micro-servicio-flask
+
+
+
+-> Para ejecutar el analasis
+1
