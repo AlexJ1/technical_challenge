@@ -22,4 +22,4 @@ En ambientes DEV / UAT / PRD. Lo ideal es utilizar secretos y/o almacenes de cre
 
 
 -> Para ejecutar el analasis
-1
+1 Ejecutar el script analizarSCA.py
