@@ -17,15 +17,21 @@ NOTA: Algunas contraseñas / accesos se encuentran "quemados" en codigo, esto pa
 En ambientes DEV / UAT / PRD. Lo ideal es utilizar secretos y/o almacenes de credenciales.
 
 
+-> Construir RED
+1) docker network create --subnet=192.168.56.0/24 --gateway=192.168.56.1 mynetwork
+
 
 -> Construir contendor DB
-1) docker run --name some-postgres -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydatabase -p 5432:5432 -d postgres
+1) docker run --name posgresql --network mynetwork --ip 192.168.56.3 -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydatabase -p 5432:5432 -d posgresql
+2) Modificar el archivo pg_hba.conf (adjunto) para permitir conn desde la RED creada.
+3) Conectarse a la DB y ejecutar el script adjunto init-db.sql 
+
 
 
 -> Construir contenedor BackEnd
 1) cd micro_servicio
 2) docker build -t micro-servicio-flask .
-3) docker run --name back-end -p 5000:5000 micro-servicio-flask
+3) docker run --name back-end  --network mynetwork --ip 192.168.56.4 -p 5000:5000 micro-servicio-flask
 
 
 -> Para ejecutar el analasis
