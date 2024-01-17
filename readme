@@ -33,7 +33,7 @@ En ambientes DEV / UAT / PRD. Lo ideal es utilizar secretos y/o almacenes de cre
 2) docker build -t micro-servicio-flask .
 3) docker run --name back-end  --network mynetwork --ip 192.168.56.4 -p 5000:5000 micro-servicio-flask
 
-
 -> Para ejecutar el analasis
 1) Dentro del script analizarSCA.py modificar la ruta del analisis de dependencias.
 1) Ejecutar el script analizarSCA.py
+
