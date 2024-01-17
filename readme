@@ -1,4 +1,14 @@
-*************INSTRUCCCIÓNES DE EJECUCIÓN*************
+*************INSTRUCCCIÓNES DE EJECUCIÓN DE APLIACIÓN*************
+
+Descripción:
+
+La APP cuenta con un script que se encarga de analizar las dependencias de un respositorio GIT cuaya aplicación
+este desarrollada en JAVA con Maven. Una vez identificadas las dependencias seran reportadas a un backend
+que las recibe e inserta en una DB PosgreSQL. El backend tambien cuenta con un endpoint que permite consultar
+las dependencias y mostrarlas en un frotend basico.
+
+
+
 
 Requerimientos:
     -> Contar con Docker instalado.  (docker desktop en caso de Windows)
@@ -6,20 +16,18 @@ Requerimientos:
 NOTA: Algunas contraseñas / accesos se encuentran "quemados" en codigo, esto para facilitar la ejecución de esta prueba en cuestion.
 En ambientes DEV / UAT / PRD. Lo ideal es utilizar secretos y/o almacenes de credenciales.
 
--> Contruir redes
 
-1) docker network create test-red
 
 -> Construir contendor DB
-1) docker run --name some-postgres --network test-red  -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydatabase -p 5432:5432 -d postgres
+1) docker run --name some-postgres -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydatabase -p 5432:5432 -d postgres
 
 
 -> Construir contenedor BackEnd
 1) cd micro_servicio
 2) docker build -t micro-servicio-flask .
-3) docker run --network  test-red -p 5000:5000 micro-servicio-flask
-
-
+3) docker run --name back-end -p 5000:5000 micro-servicio-flask
 
 -> Para ejecutar el analasis
-1 Ejecutar el script analizarSCA.py
+1) Dentro del script analizarSCA.py modificar la ruta del analisis de dependencias.
+1) Ejecutar el script analizarSCA.py
+

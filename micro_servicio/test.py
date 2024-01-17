@@ -2,10 +2,10 @@ import unittest
 from micro_service import app
 from flask import json
 
+
 class TestReportarDependencias(unittest.TestCase):
 
     def setUp(self):
-        # Configurar la aplicación en modo de prueba
         app.config['TESTING'] = True
         self.client = app.test_client()
 
@@ -14,22 +14,28 @@ class TestReportarDependencias(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_reportar_dependencias_sin_dependencias(self):
-        # Enviar un JSON sin la clave 'dependencias'
+        # Envia POST sin dependencias
         response = self.client.post('/api/reportar', json={"repositorio": "mi-repositorio"})
         self.assertEqual(response.status_code, 400)
 
     def test_reportar_dependencias_correcto(self):
-        # Enviar un JSON correcto
+        # Envia POST correctamente mapeado
         data = {
-            "repositorio": "mi-repositorio",
+            "repositorio": "TEST-REPO",
             "dependencias": [
-                {"groupId": "com.ejemplo", "artifactId": "mi-artefacto", "version": "1.0.0"}
+                {"groupId": "SPRING FRAMEWORK", 
+                 "COM SPRING": "ARTEFACTO",
+                 "version": "1.0.0"
+                 }
             ]
         }
         response = self.client.post('/api/reportar', json=data)
         self.assertEqual(response.status_code, 200)
 
-    # Agrega más pruebas según sea necesario
+    def test_consulta_get_status(self):
+        # Consulta GET
+        response = self.client.get('/api/repositorios')
+        self.assertEqual(response.status_code, 200)
 
 if __name__ == '__main__':
     unittest.main()
