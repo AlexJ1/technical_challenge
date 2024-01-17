@@ -1,12 +1,15 @@
 import configparser
-
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+from flask_cors import cross_origin
+
 
 app = Flask(__name__)
+CORS(app)
 
 # DB - Configuración.
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://myuser:mypassword@localhost/mydatabase'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://myuser:mypassword@127.0.0.1/mydatabase'
 db = SQLAlchemy(app)
 
 # Creación de modelo para la base de datos.
@@ -49,7 +52,7 @@ def reportar_dependencias():
         return jsonify({"error": "Formato de dependencias incorrecto"}), 400
 
     for dep in dependencias:
-        # Verificar que cada dependencia es un diccionario y contiene los valores  esperados
+        # Verificar que cada dependencia es un diccionario
         if not isinstance(dep, dict) or 'groupId' not in dep or 'artifactId' not in dep or 'version' not in dep:
             continue
 
@@ -65,6 +68,7 @@ def reportar_dependencias():
     return jsonify({"message": "success"}), 200
 
 @app.route('/api/repositorios', methods=['GET'])
+@cross_origin(origins=['*', '*'])
 def get_repositorios():
     repositorios = dependencia.query.all()
     return jsonify([repo.to_dict() for repo in repositorios])
